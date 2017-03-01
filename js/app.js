@@ -3,12 +3,14 @@ class Number {
   constructor(minGoalNumber, maxGoalNumber){
     this.minAleatoryNumber = minGoalNumber;
     this.maxAleatoryNumber = maxGoalNumber;
-    this.numberGoal = function(){
-      return generateValidNumber(this.minAleatoryNumber, this.maxAleatoryNumber);
-    }
-    this.spades = 0;
-    this.fixed = 0;
+    this.goalNumber = 0;
+    this.inputNumber = 0;
+    this.numberSpades = 0;
+    this.numberFixed = 0;
+  }
 
+
+  generateGoalNumber(){
 
     var countDigitInNumber = function(element, number){ // encuentra un digito en el número y cuento cuantas veces esta
       let regExp = new RegExp(element, "g");
@@ -31,7 +33,7 @@ class Number {
 
        while(!numberOk){
          var number = generateNumber(minNumber, maxNumber);
-         var timesDigits = generateTimesDigits(number);
+         let timesDigits = generateTimesDigits(number);
          let index = 0;
          while(timesDigits[index] === 1 && index < timesDigits.length){index++;}
          if(index === timesDigits.length){numberOk = true;}
@@ -39,10 +41,19 @@ class Number {
 
        return number;
     }
-
+    this.goalNumber =  generateValidNumber(this.minAleatoryNumber, this.maxAleatoryNumber);
   }
+
 }
 
 
-var obj1 = new Number(100000,999999);
-console.log(obj1.numberGoal());
+var obj1 = new Number(10,100);
+var obj2 = new Number(1000, 10000);
+console.log(obj1.goalNumber);
+console.log(obj2.goalNumber);
+obj1.generateGoalNumber();
+obj2.generateGoalNumber();
+
+console.log(obj1.goalNumber);
+console.log(obj2.goalNumber);
+console.log(obj2);
