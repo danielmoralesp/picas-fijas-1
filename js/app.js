@@ -20,9 +20,9 @@ class Number {
     }
 
 
-    var isValidNumber = function(number){
-      let timesDigits = countTimesDigits(number);
+    var isValidNumber = function(number){ // verifica que un número no tenga digitos repetidos
       let index = 0;
+      let timesDigits = countTimesDigits(number);
       while(timesDigits[index] === 1 && index < timesDigits.length){index++;}
       var numberOk = index === timesDigits.length ? true : false;
       return numberOk;
@@ -36,18 +36,15 @@ class Number {
       }
 
       var generateValidNumber = function(minNumber, maxNumber){ //genera un número aleatorio que no tenga digitos repetidos
-         let numberOk= false;
+         var number = generateNumber(minNumber, maxNumber);
 
-         while(!numberOk){
-           var number = generateNumber(minNumber, maxNumber);
-           let timesDigits = countTimesDigits(number);
-           let index = 0;
-           while(timesDigits[index] === 1 && index < timesDigits.length){index++;}
-           if(index === timesDigits.length){numberOk = true;}
+         while(!isValidNumber(number)){
+           number = generateNumber(minNumber, maxNumber);
          }
 
          return number;
       }
+
       this.goalNumber =  generateValidNumber(this.minAleatoryNumber, this.maxAleatoryNumber);
     }
 
