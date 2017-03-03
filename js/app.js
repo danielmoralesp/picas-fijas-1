@@ -1,17 +1,22 @@
-class Number {
 
-  constructor(minGoalNumber, maxGoalNumber){
+  var Number = function(minGoalNumber, maxGoalNumber){
+
     this.minAleatoryNumber = minGoalNumber;
     this.maxAleatoryNumber = maxGoalNumber;
     this.goalNumber = 0;
     this.inputNumber = 0;
     this.elements = {numberSpades: 0,numberFixeds:0}
+  };
+  
+  (function(){
 
     var isValidNumber = function(number){ // verifica que un número no tenga digitos repetidos
-      var  countTimesDigits= function(number){ //cuenta el número de veces qur esta cada digito un dígito
+
+      var  countTimesDigits= function(number){ //cuenta el número de veces qur esta cada digito en un número
+
         var countDigitInNumber = function(element, number){ // encuentra un digito en el número y cuento cuantas veces esta
           let regExp = new RegExp(element, "g");
-          return this.match(regExp).length;
+          return this.match(regExp).length; // this se refiere al tercer elemento que se envia al invocar la funcion
         }
 
         let stringNumber =  number.toString();
@@ -27,7 +32,6 @@ class Number {
 
       return numberOk;
     }
-
 
     this.isValidInputNumber = function(){ // verifica que el número ingresado por el usuario sea válido
         var lenGoalNumber = this.goalNumber.toString().split("").length;
@@ -61,9 +65,14 @@ class Number {
       this.goalNumber =  generateValidNumber(this.minAleatoryNumber, this.maxAleatoryNumber);
     }
 
+
+  }).call(Number.prototype);
+
+  this.setInputNumber = function(inputNumber){
+    this.inputNumber;
   }
 
-  countFixedsAndSpades(){ // cuenta cuantas fijas tiene el numero ingresado por el usuario
+  Number.prototype.countFixedsAndSpades = function(){ // cuenta cuantas fijas tiene el numero ingresado por el usuario
 
     var arrayInputNumber = this.inputNumber.toString().split("");
     var that = this // para que no se pierda el context
@@ -98,14 +107,13 @@ class Number {
 
   }
 
-}
 
 
 var obj1 = new Number(1000,9999);
-//obj1.setGoalNumber();
-obj1.goalNumber = 1234;
+obj1.setGoalNumber();
 obj1.inputNumber = 1234;
 console.log(obj1.goalNumber)
 obj1.countFixedsAndSpades();
 console.log("numero de picas: " + obj1.elements.numberSpades);
 console.log("numero de fijas: " + obj1.elements.numberFixeds);
+
