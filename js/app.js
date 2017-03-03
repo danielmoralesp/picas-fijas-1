@@ -1,29 +1,39 @@
 
   var Number = function(){
-    this.setMinGoalNumber = function(minGoalNumber){this.minAleatoryNumber = minGoalNumber;}
-    this.setMaxGoalNumber = function(maxGoalNumber){this.maxAleatoryNumber = maxGoalNumber;}
-    this.goalNumber = 0;
-    this.inputNumber = 0;
-    this.elements = {numberSpades: 0,numberFixeds:0}
-  };
-  
-  (function(){
+    var minAleatoryNumber = 0;
+    var maxAleatoryNumber = 0;
+    var goalNumber = 0;
+    var inputNumber = 0;
+    var elements = {numberSpades: 0,numberFixeds:0};
+    
+    var generateNumber = function(minNumber, maxNumber){ // genera un número aleatorio en el rango indicado
+      let range = (maxNumber - minNumber + 1);
+      return (Math.floor(Math.random() * range)  + minNumber);
+    }
+    
+    var generateValidNumber = function(minNumber, maxNumber){ //genera un número aleatorio que no tenga digitos repetidos
+       var number = generateNumber(minNumber, maxNumber);
 
-    var isValidNumber = function(number){ // verifica que un número no tenga digitos repetidos
+       while(!isValidNumber(number)){
+         number = generateNumber(minNumber, maxNumber);
+       }
 
-      var  countTimesDigits= function(number){ //cuenta el número de veces qur esta cada digito en un número
+       return number;
+    }
+    
+    var  countTimesDigits= function(number){ //cuenta el número de veces qur esta cada digito en un número
 
-        var countDigitInNumber = function(element, number){ // encuentra un digito en el número y cuento cuantas veces esta
-          let regExp = new RegExp(element, "g");
-          return this.match(regExp).length; // this se refiere al tercer elemento que se envia al invocar la funcion
-        }
-
-        let stringNumber =  number.toString();
-        let arrayNumber = stringNumber.split("");
-        return arrayNumber.map(countDigitInNumber, stringNumber);
+      var countDigitInNumber = function(element, number){ // encuentra un digito en el número y cuento cuantas veces esta
+        let regExp = new RegExp(element, "g");
+        return this.match(regExp).length; // this se refiere al tercer elemento que se envia al invocar la funcion
       }
 
+      let stringNumber =  number.toString();
+      let arrayNumber = stringNumber.split("");
+      return arrayNumber.map(countDigitInNumber, stringNumber);
+    }
 
+    var isValidNumber = function(number){ // verifica que un número no tenga digitos repetidos
       let index = 0;
       let timesDigits = countTimesDigits(number);
       while(timesDigits[index] === 1 && index < timesDigits.length){index++;}
@@ -32,44 +42,30 @@
       return numberOk;
     }
 
-    this.isValidInputNumber = function(){ // verifica que el número ingresado por el usuario sea válido
-        var lenGoalNumber = this.goalNumber.toString().split("").length;
-        var regExp = new RegExp("\\b" + "\\d{" + lenGoalNumber + "}" +"\\b");
-        var validNumber = false;
+    var checkValidInputNumber = function(){
+      var lenGoalNumber = goalNumber.split("").length;
+      var regExp = new RegExp("\\b" + "\\d{" + lenGoalNumber + "}" +"\\b");
+      var validNumber = false;
 
-        if((isValidNumber(this.inputNumber)) && (regExp.test(this.inputNumber))){ // verfica que el número no tenga digitos repetidos y tenga 4 digitos
-          validNumber = true;
-        }
-
-        return validNumber
-    }
-
-    this.setGoalNumber = function(){ // se setea el número generado por la máquina
-
-      var generateNumber = function(minNumber, maxNumber){ // genera un número aleatorio en el rango indicado
-        let range = (maxNumber - minNumber + 1);
-        return (Math.floor(Math.random() * range)  + minNumber);
+      if((isValidNumber(inputNumber)) && (regExp.test(inputNumber))){ // verfica que el número no tenga digitos repetidos y tenga 4 digitos
+        validNumber = true;
       }
 
-      var generateValidNumber = function(minNumber, maxNumber){ //genera un número aleatorio que no tenga digitos repetidos
-         var number = generateNumber(minNumber, maxNumber);
-
-         while(!isValidNumber(number)){
-           number = generateNumber(minNumber, maxNumber);
-         }
-
-         return number;
-      }
-
-      this.goalNumber =  generateValidNumber(this.minAleatoryNumber, this.maxAleatoryNumber);
+      return validNumber
     }
 
+    return {
+      setMinGoalNumber: function(minGoalNumber){minAleatoryNumber = minGoalNumber;},
+      setMaxGoalNumber: function(maxGoalNumber){maxAleatoryNumber = maxGoalNumber;},
+      setGoalNumber: function(){goalNumber =  generateValidNumber(minAleatoryNumber, maxAleatoryNumber).toString();},
+      getGoalNumber: function(){return goalNumber;},
+      setInputNumber: function(inputN){inputNumber = inputN.toString();},
+      getInputNumber: function(){return inputNumber;},
+      isValidInputNumber: function(){ return checkValidInputNumber();} // verifica que el número ingresado por el usuario sea válido
+    }
 
-  }).call(Number.prototype);
+  };
 
-  this.setInputNumber = function(inputNumber){
-    this.inputNumber;
-  }
 
   Number.prototype.countFixedsAndSpades = function(){ // cuenta cuantas fijas tiene el numero ingresado por el usuario
 
@@ -114,9 +110,10 @@ obj1.setMinGoalNumber(1000);
 obj1.setMaxGoalNumber(9999);
 
 obj1.setGoalNumber();
-obj1.inputNumber = 1234;
-console.log(obj1.goalNumber)
-obj1.countFixedsAndSpades();
+obj1.setInputNumber(1234);
+console.log(obj1.isValidInputNumber());
+console.log(obj1.getGoalNumber())
+/*obj1.countFixedsAndSpades();
 console.log("numero de picas: " + obj1.elements.numberSpades);
-console.log("numero de fijas: " + obj1.elements.numberFixeds);
+console.log("numero de fijas: " + obj1.elements.numberFixeds);*/
 
