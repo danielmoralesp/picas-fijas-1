@@ -54,6 +54,39 @@
       return validNumber
     }
 
+    var getPositionDigit = function(digit){ // retorna la posicion en la que se encuentra el digito en el el número generado por el sistema
+      var regExp = new RegExp(digit);
+      return goalNumber.match(regExp).index
+    }
+
+    var isDigitInNumber = function(digit){ // verifica que el digito esta en el número generado por el sistema
+      var regExp = new RegExp(digit);
+      return goalNumber.toString().match(regExp) != null ? true : false
+    }
+
+    var matchDigitInGoalNumber = function(item, index){ // verifica que un digito del numero que ingresado este en la misma que el número generado por el sistema
+
+      if(isDigitInNumber(item)){ // verifica que si este el digito en el número
+        var match = getPositionDigit(item) === index ? "fixed" : "spade"; // fijas verdadero, picas falso
+      }
+      return match || "NA"; //si no hay digitos en el número no aplica
+    }
+
+    var countElements = function(typeElement){
+      return function(){ // se aprovecha del clousure
+        var arrayInputNumber = inputNumber.split("");
+        var contElement = 0;
+
+        for (let i = 0; i < arrayInputNumber.length; i++) {
+           let matchDigit = matchDigitInGoalNumber(arrayInputNumber[i] , i);
+           if(typeElement === matchDigit) // cuenta según el elemnto indicado spade o fixed
+             contElement +=1;
+        }
+        return contElement;
+      }
+
+    }
+
     return {
       setMinGoalNumber: function(minGoalNumber){minAleatoryNumber = minGoalNumber;},
       setMaxGoalNumber: function(maxGoalNumber){maxAleatoryNumber = maxGoalNumber;},
@@ -61,47 +94,20 @@
       getGoalNumber: function(){return goalNumber;},
       setInputNumber: function(inputN){inputNumber = inputN.toString();},
       getInputNumber: function(){return inputNumber;},
-      isValidInputNumber: function(){ return checkValidInputNumber();} // verifica que el número ingresado por el usuario sea válido
+      isValidInputNumber: function(){ return checkValidInputNumber();}, // verifica que el número ingresado por el usuario sea válido
+      setSpades : function(){
+        var countSpades = countElements("spade");
+        elements.numberSpades = countSpades();
+      },
+      getSpades: function(){return elements.numberSpades;},
+      setFixeds :function(){
+        var countFixeds = countElements("fixed");
+        elements.numberFixeds = countFixeds();
+      },
+      getFixeds: function(){return elements.numberFixeds;}
     }
 
   };
-
-
-  Number.prototype.countFixedsAndSpades = function(){ // cuenta cuantas fijas tiene el numero ingresado por el usuario
-
-    var arrayInputNumber = this.inputNumber.toString().split("");
-    var that = this // para que no se pierda el context
-
-    function matchDigitInGoalNumber(item, index, that){ // verifica que un digito del numero que ingresado este en la misma que el número generado por el sistema
-
-      var getPositionDigit = function(digit){ // retorna la posicion en la que se encuentra el digito en el el número generado por el sistema
-        var regExp = new RegExp(digit);
-        return that.goalNumber.toString().match(regExp).index
-      }
-
-      var isDigitInNumber = function(digit){ // verifica que el digito esta en el número generado por el sistema
-        var regExp = new RegExp(digit);
-        return that.goalNumber.toString().match(regExp) != null ? true : false
-      }
-
-      if(isDigitInNumber(item)){ // verifica que si este el digito en el número
-        var match = getPositionDigit(item) === index ? true : false;
-      }
-      return match;
-    }
-
-
-    for (let i = 0; i < arrayInputNumber.length; i++) {
-       var matchDigit = matchDigitInGoalNumber(arrayInputNumber[i] , i, that);
-       if(matchDigit){ //si esta el digito del numero que ingresa el usuario en la misma posición que el generado por la maquina
-          this.elements.numberFixeds += 1;
-       }else if(matchDigit === false){
-          this.elements.numberSpades += 1;
-       }
-    }
-
-  }
-
 
 
 var obj1 = new Number();
@@ -112,8 +118,9 @@ obj1.setMaxGoalNumber(9999);
 obj1.setGoalNumber();
 obj1.setInputNumber(1234);
 console.log(obj1.isValidInputNumber());
-console.log(obj1.getGoalNumber())
-/*obj1.countFixedsAndSpades();
-console.log("numero de picas: " + obj1.elements.numberSpades);
-console.log("numero de fijas: " + obj1.elements.numberFixeds);*/
+console.log(obj1.getGoalNumber());
+obj1.setSpades();
+obj1.setFixeds();
+console.log("numero de picas: " + obj1.getSpades());
+console.log("numero de fijas: " + obj1.getFixeds());
 
