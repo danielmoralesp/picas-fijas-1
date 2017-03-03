@@ -1,8 +1,7 @@
 
-  var Number = function(minGoalNumber, maxGoalNumber){
-
-    this.minAleatoryNumber = minGoalNumber;
-    this.maxAleatoryNumber = maxGoalNumber;
+  var Number = function(){
+    this.setMinGoalNumber = function(minGoalNumber){this.minAleatoryNumber = minGoalNumber;}
+    this.setMaxGoalNumber = function(maxGoalNumber){this.maxAleatoryNumber = maxGoalNumber;}
     this.goalNumber = 0;
     this.inputNumber = 0;
     this.elements = {numberSpades: 0,numberFixeds:0}
@@ -109,7 +108,11 @@
 
 
 
-var obj1 = new Number(1000,9999);
+var obj1 = new Number();
+
+obj1.setMinGoalNumber(1000);
+obj1.setMaxGoalNumber(9999);
+
 obj1.setGoalNumber();
 obj1.inputNumber = 1234;
 console.log(obj1.goalNumber)
