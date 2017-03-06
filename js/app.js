@@ -152,6 +152,21 @@
 
   })();
 
+  ////////'Class View'////////////////
+  var View = (function(){
+
+    function addRowsTable(data){
+      var source = $('#data-rows-table-template').html();
+      var template = Handlebars.compile(source);
+      $('.tbody-number').append(template({'number':data}));
+    }
+
+    return{
+      addRowsTable: addRowsTable
+    }
+
+  })();
+
   /////////////// 'Class' GAME (Controller)/////////////////////////
 
   function Game(min,max){
@@ -171,14 +186,11 @@
 
   Game.prototype.Playgame = function(inputNumber){
     var endGame = false;
-    function showMessageEndGame(){
-      return "Felicitaciones has ganado";
-    }
 
     Number.setInputNumber(inputNumber);
 
     if(!Number.isValidInputNumber()){
-      console.log("El número es invalido, debe tener " + Number.getLengGoalNumber() + " Cifras diferentes");
+      alert("El número es invalido, debe tener " + Number.getLengGoalNumber() + " Cifras diferentes");
     }else{
       Number.setSpades();
       Number.setFixeds();
@@ -197,7 +209,7 @@
   }
 
 
-  var game = new Game(1000,9999);
+  /*var game = new Game(1000,9999);
   game.startGame();
   console.log(Number.getGoalNumber());
   console.log("Bienvenido al juego de picas y fijas!!!!!! \n\n");
@@ -206,4 +218,10 @@
    var inputNumber = prompt("Ingresa por favor un numero de 4 cifras");
   }while(!game.Playgame(inputNumber))
   game.endGame();
-
+  */
+  
+  $(document).ready(function(){
+    var game = new Game(1000, 9999);
+    game.startGame();
+    console.log(Number.getGoalNumber());
+  });

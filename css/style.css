@@ -2,5 +2,23 @@
 
 body{
   padding: 0px;
+
+}
+
+.container{
+  background-color: red;
+}
+ 
+.inner-container{
+  background-color: green;
+  text-align: center;
+}
+
+#input-number{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.table thead tr th{
   text-align: center;
 }

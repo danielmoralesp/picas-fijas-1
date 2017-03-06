@@ -22,18 +22,53 @@
 </head>
 
 <body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 inner-container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Picas y Fijas</h1>    
+          </div>
+        </div>
+        <div class="row">
+          <p>Ingresa Cuatro Dígitos Diferentes y oprime la tecla Enter</p>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="row">
+              <div class="col-md-12">
+                <input class="form-control input-lg text-center" type="number"  min="1000" max="9999" id="input-number">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Número</th>
+                      <th>Picas</th>
+                      <th>Fijas</th>
+                    </tr>
+                  </thead>
+                  <tbody class="tbody-number">
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-
-
-
-
-
-
-
-
-
-
+   <script id="data-rows-table-template" type="text/x-handlebars-template">
+     <tr>
+       <td>{{number.inputNumber}}</td>
+       <td>{{number.numberSpades}}</td>
+       <td>{{number.numberFixeds}}</td>
+     </tr>
+   </script>
   <!-- links js-->
 
   <!--cdn jquery-->
