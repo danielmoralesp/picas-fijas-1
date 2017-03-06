@@ -152,17 +152,35 @@
 
   })();
 
-  ////////'Class View'////////////////
+////////'Class View'////////////////
   var View = (function(){
 
+    function makeTemplate(template){
+      return Handlebars.compile(template.html());
+    }
+
     function addRowsTable(data){
-      var source = $('#data-rows-table-template').html();
-      var template = Handlebars.compile(source);
+      /*var source = $('#data-rows-table-template').html();
+      var template = Handlebars.compile(source);*/
+      var template = makeTemplate($('#data-rows-table-template'));
       $('.tbody-number').append(template({'number':data}));
+    }
+    
+    function getInputNumber(){
+      return $('#input-number').val();
+    }
+
+    function showErrorInputNumber(){ // muestra un mensaje de error
+      if(!$('#error-message').length){
+        var template = makeTemplate($('#error-message-template'));
+        $('.wrapper-error-message').append(template());
+      }
     }
 
     return{
-      addRowsTable: addRowsTable
+      addRowsTable: addRowsTable,
+      showErrorInputNumber: showErrorInputNumber,
+      getInputNumber: getInputNumber
     }
 
   })();
@@ -189,15 +207,15 @@
 
     Number.setInputNumber(inputNumber);
 
-    if(!Number.isValidInputNumber()){
-      alert("El número es invalido, debe tener " + Number.getLengGoalNumber() + " Cifras diferentes");
+    if(!Number.isValidInputNumber()){ // verifica que el número ingresado si tenga cuatro digitos diferentes
+      View.showErrorInputNumber();
     }else{
       Number.setSpades();
       Number.setFixeds();
       if(Number.isWinnerNumber()){
         showMessageEndGame();
         endGame = true;
-        
+
       }else{
         let number = Number.getActualNumberObject();
         console.log("Numero: " + number.inputNumber);
@@ -208,20 +226,18 @@
     return endGame;
   }
 
-
-  /*var game = new Game(1000,9999);
-  game.startGame();
-  console.log(Number.getGoalNumber());
-  console.log("Bienvenido al juego de picas y fijas!!!!!! \n\n");
-
-  do{
-   var inputNumber = prompt("Ingresa por favor un numero de 4 cifras");
-  }while(!game.Playgame(inputNumber))
-  game.endGame();
-  */
+/////////////Run Game///////////////////////
+  var game = new Game(1000, 9999);
   
   $(document).ready(function(){
-    var game = new Game(1000, 9999);
     game.startGame();
     console.log(Number.getGoalNumber());
+  });
+
+  $('#input-number').keypress(function(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      var inputNumber = View.getInputNumber();
+      game.Playgame(inputNumber);
+    }
   });

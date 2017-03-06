@@ -25,21 +25,38 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3 inner-container">
+
+        <!-- Title-->
         <div class="row">
           <div class="col-md-12">
-            <h1>Picas y Fijas</h1>    
+            <h1>Picas y Fijas</h1>
           </div>
         </div>
+
+        <!--Explanation -->
         <div class="row">
-          <p>Ingresa Cuatro Dígitos Diferentes y oprime la tecla Enter</p>
+          <div class="col-md-12">
+           <p>Ingresa Cuatro Dígitos Diferentes y oprime la tecla Enter</p>  
+          </div>
         </div>
+
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
+
+            <!--Error Message- Initially is hidden-->
             <div class="row">
-              <div class="col-md-12">
-                <input class="form-control input-lg text-center" type="number"  min="1000" max="9999" id="input-number">
+              <div class="col-md-12 wrapper-error-message">
               </div>
             </div>
+
+            <!--Input Number-->
+            <div class="row">
+              <div class="col-md-12">
+                <input class="form-control input-lg text-center" type="text" id="input-number">
+              </div>
+            </div>
+
+            <!--Result Table-->
             <div class="row">
               <div class="col-sm-12">
                 <table class="table table-bordered">
@@ -51,11 +68,12 @@
                     </tr>
                   </thead>
                   <tbody class="tbody-number">
-                    
+
                   </tbody>
                 </table>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -69,6 +87,15 @@
        <td>{{number.numberFixeds}}</td>
      </tr>
    </script>
+
+  
+   <script id="error-message-template" type="text/x-handlebars-template">
+     <div class="alert alert-danger alert-dismissable fade in" id="error-message">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+       <strong>¡Atención!</strong> Ingresa un número de cuatro dígitos diferentes
+     </div>
+   </script>
+
   <!-- links js-->
 
   <!--cdn jquery-->
