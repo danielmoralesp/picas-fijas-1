@@ -252,3 +252,7 @@
       }
     }
   });
+
+  $(window).on('load',function() { // espera mientras carga la pagina nuevamente, reinicia eljuego
+     alert('Cargando...');
+  });
