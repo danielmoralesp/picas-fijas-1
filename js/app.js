@@ -159,27 +159,30 @@
       return Handlebars.compile(template.html());
     }
 
-    function addRowsTable(data){
-      /*var source = $('#data-rows-table-template').html();
-      var template = Handlebars.compile(source);*/
-      var template = makeTemplate($('#data-rows-table-template'));
-      $('.tbody-number').append(template({'number':data}));
-    }
-    
     function getInputNumber(){
       return $('#input-number').val();
     }
 
-    function showErrorInputNumber(){ // muestra un mensaje de error
+    function showMessageErrorInputNumber(){ // muestra un mensaje de error
       if(!$('#error-message').length){
         var template = makeTemplate($('#error-message-template'));
         $('.wrapper-error-message').append(template());
       }
     }
 
+    function deleteMessageErrorInputNumber(){
+      $('.alert-danger').remove();
+    }
+
+    function showMove(data){
+      var template = makeTemplate($('#data-rows-table-template'));
+      $('tbody').append(template({'number':data})).fadeIn('fast');
+    }
+
     return{
-      addRowsTable: addRowsTable,
-      showErrorInputNumber: showErrorInputNumber,
+      showMessageErrorInputNumber: showMessageErrorInputNumber,
+      showMove: showMove,
+      deleteMessageErrorInputNumber: deleteMessageErrorInputNumber,
       getInputNumber: getInputNumber
     }
 
@@ -202,27 +205,29 @@
     console.log("Felicitaciones has ganado el juego!!!");
   }
 
-  Game.prototype.Playgame = function(inputNumber){
+  Game.prototype.Playgame = function(inputNumber){ // analiza una jugada, si retorna true entonces el jugado adivido el número
     var endGame = false;
 
-    Number.setInputNumber(inputNumber);
-
-    if(!Number.isValidInputNumber()){ // verifica que el número ingresado si tenga cuatro digitos diferentes
-      View.showErrorInputNumber();
-    }else{
+    function setNumberInTable(){
       Number.setSpades();
       Number.setFixeds();
-      if(Number.isWinnerNumber()){
-        showMessageEndGame();
-        endGame = true;
-
-      }else{
-        let number = Number.getActualNumberObject();
-        console.log("Numero: " + number.inputNumber);
-        console.log("Picas: " + number.numberSpades);
-        console.log("Fijas: " + number.numberFixeds);
-      }
+      propertiesInputNumber = Number.getActualNumberObject();
+      View.showMove(propertiesInputNumber);//muestra la jugada en pantalla
     }
+
+    Number.setInputNumber(inputNumber); //setea el número de entrada con la clase Number
+
+    if(!Number.isValidInputNumber()){ // verifica que el número ingresado si tenga cuatro digitos diferentes
+      View.showMessageErrorInputNumber(); //Muestra un error en la pantalla
+    }else{
+      if($('.alert-danger').length){View.deleteMessageErrorInputNumber();} // en caso de que el usuario no cierre el mensaje de error, se cierra automaticamente
+      setNumberInTable(); // Imprime en la pantalla el resultado del jugada
+    }
+
+    if(Number.isWinnerNumber()){
+      endGame = true;
+    }
+
     return endGame;
   }
 
@@ -237,7 +242,13 @@
   $('#input-number').keypress(function(e) {
     if (e.keyCode === 13) {
       e.preventDefault();
+
       var inputNumber = View.getInputNumber();
-      game.Playgame(inputNumber);
+      let endGame = game.Playgame(inputNumber);
+
+      if(endGame){
+         alert("Felicitaciones haz ganado el juego!!!!!!!");
+         location.reload();
+      }
     }
   });

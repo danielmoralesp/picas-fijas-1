@@ -5,12 +5,8 @@ body{
 
 }
 
-.container{
-  background-color: red;
-}
  
 .inner-container{
-  background-color: green;
   text-align: center;
 }
 
@@ -19,6 +15,16 @@ body{
   margin-bottom: 40px;
 }
 
-.table thead tr th{
+
+th{
   text-align: center;
+  background-color: #E5E5E5;
+}
+
+tr:nth-child(odd){
+  background-color: #D6ECF3;
+}
+
+tr:nth-child(even){
+  background-color: #ADD8E6;
 }
