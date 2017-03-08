@@ -130,6 +130,7 @@
       number.numberFixeds = getFixeds();
       return number;
     }
+    
 
     function setMinGoalNumber (minGoalNumber){minAleatoryNumber = minGoalNumber;}
 
@@ -176,14 +177,28 @@
 
     function showMove(data){
       var template = makeTemplate($('#data-rows-table-template'));
-      $('tbody').append(template({'number':data})).fadeIn('fast');
+      $('tbody').prepend(template({'number':data})).fadeIn('fast');
+    }
+    
+    function clearInputNumber(){
+      $('#input-number').val("");
+    }
+    function showEndGameModal(){
+      $('.modal-end').show('fast');
+    }
+
+    function hideEndGameModal(){
+     $('.modal-end').hide('fast');
     }
 
     return{
-      showMessageErrorInputNumber: showMessageErrorInputNumber,
-      showMove: showMove,
+      showMessageErrorInputNumber:   showMessageErrorInputNumber,
+      showMove:                      showMove,
+      showEndGameModal:              showEndGameModal,
+      hideEndGameModal:              hideEndGameModal,
       deleteMessageErrorInputNumber: deleteMessageErrorInputNumber,
-      getInputNumber: getInputNumber
+      getInputNumber:                getInputNumber,
+      clearInputNumber:              clearInputNumber
     }
 
   })();
@@ -199,6 +214,8 @@
     Number.setMinGoalNumber(this.min);
     Number.setMaxGoalNumber(this.max);
     Number.setGoalNumber();
+    View.clearInputNumber();
+
   }
 
   Game.prototype.endGame = function(){
@@ -247,20 +264,14 @@
       let endGame = game.Playgame(inputNumber);
 
       if(endGame){
-         alert("Felicitaciones haz ganado el juego!!!!!!!");
-         location.reload();
+         View.showEndGameModal()
       }
     }
   });
 
-  $('#modal-btn').on('click', function(){
-    $('.modal-end').toggleClass('invisible');
-  });
-
   $('#btn-reset').on('click', function(){
-    $('.modal-end').addClass('invisible');
+     View.hideEndGameModal();
   });
-
   /*$(window).on('load',function() { // espera mientras carga la pagina nuevamente, reinicia eljuego
      alert('Cargando...');
   });*/

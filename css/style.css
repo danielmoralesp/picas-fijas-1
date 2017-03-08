@@ -12,7 +12,7 @@ body{
   position: absolute;
   background: rgba(0,0,0,0.8);
   z-index: 1;
-  display: flex;
+  display: none;
 }
 
 .modal-end div{
@@ -20,6 +20,7 @@ body{
  height: 40%;
  margin: auto;
  text-align: center;
+ margin-top: 20%;
 }
 
 
@@ -39,10 +40,6 @@ body{
 
 }
 
-
-.invisible{
-  display: none;
-}
 
 .inner-container{
   text-align: center;
