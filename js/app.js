@@ -187,15 +187,18 @@
       $('.modal-end').show('fast');
     }
 
-    function hideEndGameModal(){
-     $('.modal-end').hide('fast');
+    function showPreloader(){
+      setTimeout(function(){
+        $('#container-preloader').addClass('close-preloader');
+        $('#container-preloader').hide('slow');
+      }, 2000);
     }
 
     return{
       showMessageErrorInputNumber:   showMessageErrorInputNumber,
       showMove:                      showMove,
       showEndGameModal:              showEndGameModal,
-      hideEndGameModal:              hideEndGameModal,
+      showPreloader:                 showPreloader,
       deleteMessageErrorInputNumber: deleteMessageErrorInputNumber,
       getInputNumber:                getInputNumber,
       clearInputNumber:              clearInputNumber
@@ -252,6 +255,7 @@
   var game = new Game(1000, 9999);
   
   $(document).ready(function(){
+    View.showPreloader();
     game.startGame();
     console.log(Number.getGoalNumber());
   });
@@ -262,6 +266,7 @@
 
       var inputNumber = View.getInputNumber();
       let endGame = game.Playgame(inputNumber);
+      View.clearInputNumber();
 
       if(endGame){
          View.showEndGameModal()
@@ -269,9 +274,6 @@
     }
   });
 
-  $('#btn-reset').on('click', function(){
-     View.hideEndGameModal();
+  $('#btn-reset').on('click', function(){ 
+     location.reload();
   });
-  /*$(window).on('load',function() { // espera mientras carga la pagina nuevamente, reinicia eljuego
-     alert('Cargando...');
-  });*/
