@@ -253,6 +253,14 @@
     }
   });
 
-  $(window).on('load',function() { // espera mientras carga la pagina nuevamente, reinicia eljuego
-     alert('Cargando...');
+  $('#modal-btn').on('click', function(){
+    $('.modal-end').toggleClass('invisible');
   });
+
+  $('#btn-reset').on('click', function(){
+    $('.modal-end').addClass('invisible');
+  });
+
+  /*$(window).on('load',function() { // espera mientras carga la pagina nuevamente, reinicia eljuego
+     alert('Cargando...');
+  });*/
