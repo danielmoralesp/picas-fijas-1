@@ -239,9 +239,11 @@
 
     if(!Number.isValidInputNumber()){ // verifica que el número ingresado si tenga cuatro digitos diferentes
       View.showMessageErrorInputNumber(); //Muestra un error en la pantalla
+      soundError.play(); // sonido error
     }else{
       if($('.alert-danger').length){View.deleteMessageErrorInputNumber();} // en caso de que el usuario no cierre el mensaje de error, se cierra automaticamente
       setNumberInTable(); // Imprime en la pantalla el resultado del jugada
+      soundInputNumber.play(); // sonido de ingreso correcto
     }
 
     if(Number.isWinnerNumber()){
@@ -253,10 +255,28 @@
 
 /////////////Run Game///////////////////////
   var game = new Game(1000, 9999);
-  
+  var soundGame = new Howl({
+      src:['sounds/play_game.mp3','sounds/play_game.webm'],
+      loop: true,
+      volume: 0.8
+  });
+
+  var soundInputNumber = new Howl({
+     src:['sounds/alert1.mp3', 'sounds/alert1.webm']
+  });
+
+  var soundError = new Howl({
+    src:['sounds/alert2.mp3', 'sounds/alert2.webm']
+  });
+
+  var soundWinner = new Howl({
+   src:['sounds/alert3.mp3', 'sounds/alert3.webm']
+  });
+
   $(document).ready(function(){
     View.showPreloader();
     game.startGame();
+    soundGame.play();
     console.log(Number.getGoalNumber());
   });
 
@@ -269,7 +289,10 @@
       View.clearInputNumber();
 
       if(endGame){
-         View.showEndGameModal()
+         View.showEndGameModal();
+         soundInputNumber.stop();
+         soundWinner.play(); // sonido ganador
+         soundGame.stop(); // apaga la musica de fondo
       }
     }
   });
@@ -277,3 +300,4 @@
   $('#btn-reset').on('click', function(){ 
      location.reload();
   });
+
