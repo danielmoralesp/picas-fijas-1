@@ -277,7 +277,7 @@
     View.showPreloader();
     game.startGame();
     soundGame.play();
-   // console.log(Number.getGoalNumber());
+    console.log(Number.getGoalNumber());
   });
 
   $('#input-number').keypress(function(e) {
